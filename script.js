@@ -80,10 +80,12 @@ function nextItem(){
   if (mode === 'colours') {
     shapeContainer.classList.add('hidden');
     displayArea.style.background = currentItem.toLowerCase();
+    speak("New colour");   // 👈 added line
   } else {
     displayArea.style.background = '#ffffff';
     shapeContainer.classList.remove('hidden');
     shapeContainer.innerHTML = getShapeSVG(currentItem);
+    speak("New shape");    // 👈 added line
   }
 }
 
