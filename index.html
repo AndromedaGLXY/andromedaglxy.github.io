@@ -13,19 +13,24 @@
 </head>
 <body>
   <div id="app">
+    <!-- Menu -->
     <div id="menu" class="screen">
       <h1>MindSight Trainer</h1>
       <button id="btnSetup">Setup</button>
       <button id="btnPlay">Play</button>
     </div>
 
+    <!-- Setup -->
     <div id="setup" class="screen hidden">
       <h2>Setup</h2>
       <div class="mode-row">
         <label><input type="radio" name="mode" value="colours" checked> Colours</label>
         <label><input type="radio" name="mode" value="shapes"> Shapes</label>
       </div>
-      <div id="selectArea"></div>
+
+      <div id="selectArea">
+      </div>
+
       <div class="controls">
         <button id="btnApply">Apply</button>
         <button id="btnBackMenu">Back</button>
@@ -33,13 +38,16 @@
       <p class="hint">Choose up to 6 items.</p>
     </div>
 
+    <!-- Game -->
     <div id="game" class="screen hidden">
-      <div id="displayArea">
+      <div id="displayArea" aria-label="training display" role="button" tabindex="0">
         <div id="shapeContainer" class="hidden"></div>
         <div id="nameOverlay" class="name-overlay hidden"></div>
       </div>
-      <div class="bottom-bar">
+      <div class="instructions">
         <p id="instructionText">Think the answer in your head. Tap to reveal. Tap again for a new one.</p>
+      </div>
+      <div class="controls">
         <button id="btnBackFromGame">Back</button>
       </div>
     </div>
