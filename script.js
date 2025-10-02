@@ -31,13 +31,12 @@ function renderOptions() {
     c.type = 'checkbox'; c.value = item;
     c.checked = chosen.includes(item);
     c.addEventListener('change', () => {
-      if (c.checked) {
-        if (chosen.length >= 6) { c.checked = false; alert('Choose up to 6.'); return; }
-        chosen.push(item);
-      } else {
-        chosen = chosen.filter(x => x !== item);
-      }
-    });
+  if (c.checked) {
+    chosen.push(item);
+  } else {
+    chosen = chosen.filter(x => x !== item);
+  }
+});
 
     const sw = document.createElement('span');
     sw.className = 'swatch';
