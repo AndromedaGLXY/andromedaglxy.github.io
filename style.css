@@ -1,45 +1,19 @@
 :root{--bg:#ffffff; --fg:#000000; --accent:#1f6feb; font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:#f5f5f7;color:#111}
-
-/* screens */
 .screen{height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;text-align:center}
 .hidden{display:none}
 h1{margin:0 0 12px 0}
 button{padding:8px 14px;margin:6px;font-size:15px;border-radius:10px;border:1px solid rgba(0,0,0,0.1);background:#fff}
-
-/* setup grid */
 .mode-row{display:flex;gap:18px;justify-content:center;margin:8px 0}
 #selectArea{max-width:720px;width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;text-align:left}
 .item{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px}
 .item .swatch{width:26px;height:26px;border-radius:6px;border:1px solid #ddd}
 .hint{opacity:0.8;font-size:14px;margin-top:8px}
-
-/* game layout */
 #game.screen{justify-content:space-between;gap:8px}
-#displayArea{
-  position:relative;
-  flex:1 1 auto;
-  width:100%;
-  background:#ffffff; /* default background; script overwrites for colours */
-  margin:0; padding:0;
-  display:flex; align-items:center; justify-content:center;
-  overflow:hidden;
-}
-
-/* shapes fill nearly edge-to-edge */
+#displayArea{position:relative;flex:1 1 auto;width:100%;background:#ffffff;margin:0;padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #shapeContainer{width:100%;height:100%}
-
-/* revealed name chip */
-.name-overlay{
-  position:absolute; bottom:12px; left:50%; transform:translateX(-50%);
-  background:rgba(0,0,0,0.7); color:#fff; padding:6px 10px; border-radius:8px;
-  font-weight:700; font-size:18px
-}
-
-/* small bottom UI */
+.name-overlay{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:#fff;padding:6px 10px;border-radius:8px;font-weight:700;font-size:18px}
 .instructions{font-size:12px;opacity:0.75;margin:0 0 4px}
 .controls button,.bottom-bar button{padding:6px 12px;font-size:14px}
-
-/* svg always scales */
 svg{width:100%;height:100%;display:block}

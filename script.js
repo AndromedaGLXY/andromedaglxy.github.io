@@ -1,8 +1,9 @@
 
-// MindSight Trainer: Colours & Shapes (with audio cues, no 6-limit)
+// MindSight Trainer with blackout interruption
 const COLOURS=['Red','Green','Blue','Yellow','Orange','Purple','Pink','Black','White','Gray','Cyan','Brown'];
 const SHAPES=['Triangle','Square','Circle','Star','Heart','Cross','Arrow','Pentagon','Crescent','Diamond'];
 let mode='colours';let chosen=[];let revealed=false;let currentItem=null;
+let blackoutTimer=null;let blackoutActive=false;let originalBackground=null;let originalShapeHTML=null;
 const menu=document.getElementById('menu');const setup=document.getElementById('setup');const game=document.getElementById('game');
 const selectArea=document.getElementById('selectArea');const shapeContainer=document.getElementById('shapeContainer');
 const displayArea=document.getElementById('displayArea');const nameOverlay=document.getElementById('nameOverlay');
@@ -19,9 +20,13 @@ function showSetup(){menu.classList.add('hidden');setup.classList.remove('hidden
 function showGame(){if(chosen.length===0){alert('Please choose at least 1 item.');return;}menu.classList.add('hidden');setup.classList.add('hidden');game.classList.remove('hidden');revealed=false;nextItem();}
 function nextItem(){currentItem=chosen[Math.floor(Math.random()*chosen.length)];revealed=false;nameOverlay.classList.add('hidden');
  if(mode==='colours'){shapeContainer.classList.add('hidden');displayArea.style.background=currentItem.toLowerCase();speak('New colour');}
- else{displayArea.style.background='#ffffff';shapeContainer.classList.remove('hidden');shapeContainer.innerHTML=getShapeSVG(currentItem);speak('New shape');}}
+ else{displayArea.style.background='#ffffff';shapeContainer.classList.remove('hidden');shapeContainer.innerHTML=getShapeSVG(currentItem);speak('New shape');}
+ originalBackground=displayArea.style.background;originalShapeHTML=shapeContainer.innerHTML;
+ if(blackoutTimer)clearTimeout(blackoutTimer);
+ const delay=(30+Math.random()*90)*1000;blackoutTimer=setTimeout(startBlackout,delay);
+}
 function revealName(){nameOverlay.textContent=currentItem;nameOverlay.classList.remove('hidden');speak(currentItem);}
-function handleTap(){if(!revealed){revealed=true;revealName();}else{nextItem();}}
+function handleTap(){if(blackoutActive)return;if(!revealed){revealed=true;revealName();}else{nextItem();}}
 function getShapeSVG(name){const n=name.toLowerCase();switch(n){
  case'triangle':return`<svg viewBox="0 0 100 100"><polygon points="50,5 95,95 5,95" fill="#000"/></svg>`;
  case'square':return`<svg viewBox="0 0 100 100"><rect x="5" y="5" width="90" height="90" fill="#000"/></svg>`;
@@ -35,6 +40,9 @@ function getShapeSVG(name){const n=name.toLowerCase();switch(n){
  case'diamond':return`<svg viewBox="0 0 100 100"><polygon points="50,5 95,50 50,95 5,50" fill="#000"/></svg>`;
  default:return`<svg viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" fill="#000"/></svg>`;}}
 function speak(text){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);speechSynthesis.speak(u);}catch(e){}}
+function playIncorrectSound(){try{const ctx=new (window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();osc.type="sawtooth";osc.frequency.setValueAtTime(180,ctx.currentTime);osc.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+0.4);}catch(e){console.error(e);}}
+function startBlackout(){blackoutActive=true;originalBackground=displayArea.style.background;originalShapeHTML=shapeContainer.innerHTML;displayArea.style.background="black";shapeContainer.classList.add("hidden");nameOverlay.classList.add("hidden");playIncorrectSound();if(navigator.vibrate)navigator.vibrate(300);setTimeout(endBlackout,10000);}
+function endBlackout(){blackoutActive=false;displayArea.style.background=originalBackground;shapeContainer.classList.remove("hidden");shapeContainer.innerHTML=originalShapeHTML;}
 document.getElementById('btnSetup').addEventListener('click',showSetup);
 document.getElementById('btnPlay').addEventListener('click',showGame);
 document.getElementById('btnBackMenu').addEventListener('click',showMenu);
