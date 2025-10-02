@@ -153,3 +153,13 @@ displayArea.addEventListener('touchend', (e)=>{ e.preventDefault(); handleTap();
 
 setMode('colours');
 showMenu();
+
+function speak(text){
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(u);
+  } catch(e) {
+    console.error(e);
+  }
+}
