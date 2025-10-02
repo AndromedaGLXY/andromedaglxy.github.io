@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MindSight: Colours</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>MindSight Trainer</title>
   <link rel="manifest" href="/manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -14,48 +14,42 @@
 <body>
   <div id="app">
     <!-- Menu -->
-    <div id="menu">
-      <h1>MindSight: Colours</h1>
-      <button onclick="showSetup()">Setup Game</button>
-      <button onclick="startGame()">Play Game</button>
-      <button onclick="showStats()">Statistics</button>
+    <div id="menu" class="screen">
+      <h1>MindSight Trainer</h1>
+      <button id="btnSetup">Setup</button>
+      <button id="btnPlay">Play</button>
     </div>
 
     <!-- Setup -->
-    <div id="setup" class="hidden">
-      <h2>Setup Game</h2>
-      <label>Choose Left Colour:</label>
-      <select id="leftColour"></select>
-      <br>
-      <label>Choose Right Colour:</label>
-      <select id="rightColour"></select>
-      <br>
-      <button onclick="backToMenu()">Back</button>
-      <button onclick="startGame()">Start</button>
+    <div id="setup" class="screen hidden">
+      <h2>Setup</h2>
+      <div class="mode-row">
+        <label><input type="radio" name="mode" value="colours" checked> Colours</label>
+        <label><input type="radio" name="mode" value="shapes"> Shapes</label>
+      </div>
+
+      <div id="selectArea">
+      </div>
+
+      <div class="controls">
+        <button id="btnApply">Apply</button>
+        <button id="btnBackMenu">Back</button>
+      </div>
+      <p class="hint">Choose up to 6 items.</p>
     </div>
 
     <!-- Game -->
-    <div id="game" class="hidden">
-      <div id="gameHeader">
-        <span id="leftLabel"></span>
-        <span id="rightLabel" style="float:right;"></span>
+    <div id="game" class="screen hidden">
+      <div id="displayArea" aria-label="training display" role="button" tabindex="0">
+        <div id="shapeContainer" class="hidden"></div>
+        <div id="nameOverlay" class="name-overlay hidden"></div>
       </div>
-      <div id="gameArea">
-        <div id="colorCard"></div>
-        <div id="divider"></div>
-        <div id="leftSide"></div>
-        <div id="rightSide"></div>
+      <div class="instructions">
+        <p id="instructionText">Think the answer in your head. Tap to reveal. Tap again for a new one.</p>
       </div>
-      <div id="gameStats"></div>
-      <button onclick="endGame()">End Game (Save)</button>
-      <button onclick="backToMenu()">Back to Menu</button>
-    </div>
-
-    <!-- Statistics -->
-    <div id="stats" class="hidden">
-      <h2>Statistics</h2>
-      <ul id="statsList"></ul>
-      <button onclick="backToMenu()">Back</button>
+      <div class="controls">
+        <button id="btnBackFromGame">Back</button>
+      </div>
     </div>
   </div>
 
@@ -63,7 +57,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
-        .then(() => console.log('Service Worker registered'))
+        .then(() => console.log('SW registered'))
         .catch(err => console.error('SW registration failed:', err));
     }
   </script>
