@@ -1,5 +1,5 @@
 
-// MindSight Trainer with blackout + buzz + beep, fixed tap bug, updated blackout timer (30s – 90s)
+// MindSight Trainer with blackout + buzz + beep, fixed tap bug, updated blackout timer (30s – 90s), audio fix
 const COLOURS=['Red','Green','Blue','Yellow','Orange','Purple','Pink','Black','White','Gray','Cyan','Brown'];
 const SHAPES=['Triangle','Square','Circle','Star','Heart','Cross','Arrow','Pentagon','Crescent','Diamond'];
 let mode='colours';let chosen=[];let revealed=false;let currentItem=null;
@@ -46,8 +46,8 @@ function getShapeSVG(name){const n=name.toLowerCase();switch(n){
  default:return`<svg viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" fill="#000"/></svg>`;}}
 function speak(text){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);speechSynthesis.speak(u);}catch(e){}}
 
-function playBuzz(){try{if(!audioCtx)return;const osc=audioCtx.createOscillator();osc.type="square";osc.frequency.setValueAtTime(60,audioCtx.currentTime);const gain=audioCtx.createGain();gain.gain.setValueAtTime(0.4,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.5);osc.connect(gain).connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+0.5);}catch(e){console.error(e);}}
-function playBeep(){try{if(!audioCtx)return;const osc=audioCtx.createOscillator();osc.type="sine";osc.frequency.setValueAtTime(880,audioCtx.currentTime);const gain=audioCtx.createGain();gain.gain.setValueAtTime(0.4,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.2);osc.connect(gain).connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+0.2);}catch(e){console.error(e);}}
+function playBuzz(){try{initAudio();if(!audioCtx)return;const osc=audioCtx.createOscillator();osc.type="square";osc.frequency.setValueAtTime(60,audioCtx.currentTime);const gain=audioCtx.createGain();gain.gain.setValueAtTime(0.4,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.5);osc.connect(gain).connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+0.5);}catch(e){console.error(e);}}
+function playBeep(){try{initAudio();if(!audioCtx)return;const osc=audioCtx.createOscillator();osc.type="sine";osc.frequency.setValueAtTime(880,audioCtx.currentTime);const gain=audioCtx.createGain();gain.gain.setValueAtTime(0.4,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.2);osc.connect(gain).connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+0.2);}catch(e){console.error(e);}}
 
 function startBlackout(){blackoutActive=true;originalBackground=displayArea.style.background;originalShapeHTML=shapeContainer.innerHTML;displayArea.style.background="black";shapeContainer.classList.add("hidden");nameOverlay.classList.add("hidden");playBuzz();setTimeout(endBlackout,10000);}
 function endBlackout(){blackoutActive=false;displayArea.style.background=originalBackground;shapeContainer.classList.remove("hidden");shapeContainer.innerHTML=originalShapeHTML;playBeep();}
