@@ -1,5 +1,5 @@
 
-// MindSight Trainer with blackout + buzz + beep, tap bug fixed (no click listener)
+// MindSight Trainer with blackout + buzz + beep, fixed tap bug, updated blackout timer (30s – 90s)
 const COLOURS=['Red','Green','Blue','Yellow','Orange','Purple','Pink','Black','White','Gray','Cyan','Brown'];
 const SHAPES=['Triangle','Square','Circle','Star','Heart','Cross','Arrow','Pentagon','Crescent','Diamond'];
 let mode='colours';let chosen=[];let revealed=false;let currentItem=null;
@@ -27,7 +27,8 @@ function nextItem(){currentItem=chosen[Math.floor(Math.random()*chosen.length)];
  else{displayArea.style.background='#ffffff';shapeContainer.classList.remove('hidden');shapeContainer.innerHTML=getShapeSVG(currentItem);speak('New shape');}
  originalBackground=displayArea.style.background;originalShapeHTML=shapeContainer.innerHTML;
  if(blackoutTimer)clearTimeout(blackoutTimer);
- const delay=(30+Math.random()*90)*1000;blackoutTimer=setTimeout(startBlackout,delay);
+ const delay=(30 + Math.random() * 60) * 1000;  // 30s – 90s
+ blackoutTimer=setTimeout(startBlackout,delay);
 }
 function revealName(){nameOverlay.textContent=currentItem;nameOverlay.classList.remove('hidden');speak(currentItem);}
 function handleTap(){initAudio();if(blackoutActive)return;if(!revealed){revealed=true;revealName();}else{nextItem();}}
