@@ -1,5 +1,5 @@
 
-// MindSight Trainer with blackout interruption + buzz and beep
+// MindSight Trainer with blackout + buzz + beep, tap bug fixed (no click listener)
 const COLOURS=['Red','Green','Blue','Yellow','Orange','Purple','Pink','Black','White','Gray','Cyan','Brown'];
 const SHAPES=['Triangle','Square','Circle','Star','Heart','Cross','Arrow','Pentagon','Crescent','Diamond'];
 let mode='colours';let chosen=[];let revealed=false;let currentItem=null;
@@ -56,7 +56,6 @@ document.getElementById('btnPlay').addEventListener('click',showGame);
 document.getElementById('btnBackMenu').addEventListener('click',showMenu);
 document.getElementById('btnApply').addEventListener('click',showMenu);
 document.getElementById('btnBackFromGame').addEventListener('click',showMenu);
-document.querySelectorAll('input[name="mode"]').forEach(r=>{r.addEventListener('change',(e)=>setMode(e.target.value));});
-displayArea.addEventListener('click',handleTap);
+// Only touchend to avoid double fire
 displayArea.addEventListener('touchend',(e)=>{e.preventDefault();handleTap();},{passive:false});
 setMode('colours');showMenu();
